@@ -15,6 +15,7 @@ const Vision = require('@hapi/vision');
 const HapiSwagger = require('hapi-swagger');
 const Pack = require('./package');
 const Joi = require('@hapi/joi');
+const taskController = require('./api/controller/taskController');
 
 const init = async () => {
 
@@ -63,7 +64,36 @@ const init = async () => {
             return('Hello, you entered : ' + encodeURIComponent(request.params.id) + '!');
         },
     });
-
+    server.route({
+        method: "GET",
+        path: "/task/list",
+        options: {
+            description: 'List the Tasks',
+            notes: 'Returns a list of tasks',
+            tags: ['api']
+        },
+        handler: (request, response) => {
+            response(request.payload);
+        }
+    });
+    server.route({
+        method: "POST",
+        path: "/task/add",
+        options: {
+            description: 'Add a Task',
+            notes: 'Add a new task',
+            tags: ['api'],
+            validate: {
+                payload: Joi.object({
+                    summary: Joi.string().required().description('Task Summary'),
+                    description: Joi.string().required().description('Task Description'),
+                    created_by:Joi.number().required().description('Creator User ID')
+                })
+            }
+        },
+        handler: taskController.addTask
+        //(request, response) => {            response(request.payload);        }
+    });
     try {
         await server.start();
         console.log('Server running at:', server.info.uri);

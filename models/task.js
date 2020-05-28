@@ -11,9 +11,14 @@ module.exports = (sequelize, DataTypes) => {
       summary: DataTypes.STRING,
       description: DataTypes.STRING,
       status: DataTypes.STRING,
+      created_by:DataTypes.STRING,
+      assignee:DataTypes.STRING,
       comment: DataTypes.STRING,
-      due_date: DataTypes.DATE,
-    });
+      due_date: DataTypes.DATE
+    }, {
+        freezeTableName: true
+    }
+    );
   
     return task;
   };

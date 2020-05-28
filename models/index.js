@@ -7,6 +7,12 @@ const dbConfig = require('../config/config');
 const basename = path.basename(__filename);
 
 const db = {};
+var opts = {
+  define: {
+      //prevent sequelize from pluralizing table names
+      freezeTableName: true
+  }
+}
 
 const sequelize = new Sequelize(
   dbConfig.database,
@@ -17,7 +23,7 @@ const sequelize = new Sequelize(
     dialect: dbConfig.dialect,
     useUTC: false,
     timezone: '+05:30' // To be updated to whatever TZ
-  },
+  }
 );
 
 sequelize
