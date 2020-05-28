@@ -1,0 +1,11 @@
+const CONSTANTS = {
+    STATUS_CODE: {
+        SUCCESS: 200,
+        JWT_TOKEN_EXPIRED: 499,
+        INTERNAL_ERROR: 500,
+        INTERNAL_SERVER_ERROR: 502,
+        INTERNAL_SERVER_UIDAI_ERROR: 504,
+        TIME_OUT: 599,
+        API_FAILED: -999,
+      },
+}

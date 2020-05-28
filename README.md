@@ -2,12 +2,14 @@
 Demo Task Manager with a simple login, add task, add subtask, comment, close.
 
 ## Stack
-Node JS 10
-HAPI Framework
-Angular 7.10
-PostgreSql
-Twitter Bootstrap
-Google Fonts
+Node JS 12.17.0 -> integrated
+HAPI Framework -> integrated
+HAPI Swagger -> integrated
+PostgreSql -> integrated
+Sequelize -> integrated (DB query test - Pending)
+Twitter Bootstrap -> <TODO>
+Angular 7.10 -> <TODO>
+Google Fonts -> <TODO>
 
 The Requirement list:
 
@@ -19,3 +21,9 @@ A task can have sub tasks
 
 ## Hosted at
 <TODO>
+
+## Dev Instructions
+1. Clone repository
+2. run 'npm install'
+3. run 'npm start'
+4. Access API documentation at -- http://localhost:3000/documentation
