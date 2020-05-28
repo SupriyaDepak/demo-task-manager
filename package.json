@@ -1,0 +1,23 @@
+{
+  "name": "demo-task-manager",
+  "version": "1.0.0",
+  "description": "Simple task manager for demo with google auth based login,task & subtask creation, commenting and closing ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vgk-niveus/demo-task-manager.git"
+  },
+  "keywords": [
+    "task",
+    "manager"
+  ],
+  "author": "vinayak.kudva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vgk-niveus/demo-task-manager/issues"
+  },
+  "homepage": "https://github.com/vgk-niveus/demo-task-manager#readme"
+}
