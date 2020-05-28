@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/vgk-niveus/demo-task-manager/issues"
   },
-  "homepage": "https://github.com/vgk-niveus/demo-task-manager#readme"
+  "homepage": "https://github.com/vgk-niveus/demo-task-manager#readme",
+  "dependencies": {
+    "@hapi/hapi": "^19.1.1"
+  }
 }
