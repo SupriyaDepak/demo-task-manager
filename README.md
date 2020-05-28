@@ -9,9 +9,9 @@ Demo Task Manager with a simple login, add task, add subtask, comment, close.
 - PostgreSql -> integrated
 - Sequelize -> integrated (DB query test - Insert record done)
 ### UI
-- Twitter Bootstrap -> <TODO>
-- Angular 7.10 -> <TODO>
-- Google Fonts -> <TODO>
+- Twitter Bootstrap -> TODO
+- Angular 7.10 -> TODO
+- Google Fonts -> TODO
 
 The Requirement list:
 
@@ -22,7 +22,7 @@ User leave comments for a task
 A task can have sub tasks
 
 ## Hosted at
-<TODO>
+TODO
 
 ## Dev Instructions
 1. Clone repository
