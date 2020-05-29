@@ -3,7 +3,7 @@ Demo Task Manager with a simple login, add task, add subtask, comment, close.
 
 ## Stack
 ### Backend
-- Node JS 12.17.0 -> integrated
+- Node JS 10.20.1 -> integrated
 - HAPI Framework -> integrated
 - HAPI Swagger -> integrated
 - PostgreSql -> integrated
