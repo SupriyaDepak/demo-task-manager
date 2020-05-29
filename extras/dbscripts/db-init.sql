@@ -34,6 +34,8 @@ CREATE TABLE "comment" (
 	"task_id" INTEGER NOT NULL DEFAULT 0,
 	"user_id" INTEGER NOT NULL DEFAULT '0',
 	"content" TEXT NOT NULL DEFAULT '0',
+	"createdAt" TIMESTAMP NOT NULL,
+	"updatedAt" TIMESTAMP NOT NULL,
 	CONSTRAINT "FK__taskid" FOREIGN KEY ("task_id") REFERENCES "task" ("id"),
 	CONSTRAINT "FK__user" FOREIGN KEY ("user_id") REFERENCES "user" ("id")
 );
@@ -44,5 +46,7 @@ CREATE TABLE "session" (
 	"user_id" INTEGER NOT NULL,
 	"gauth_token" TEXT NOT NULL DEFAULT '',
 	"jwt_token" TEXT NOT NULL DEFAULT '',
+	"createdAt" TIMESTAMP NOT NULL,
+	"updatedAt" TIMESTAMP NOT NULL,
 	CONSTRAINT "FK__session_user" FOREIGN KEY ("user_id") REFERENCES "user" ("id")
 );
