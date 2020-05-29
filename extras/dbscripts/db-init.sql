@@ -1,5 +1,5 @@
---DROP DATABASE IF EXISTS "pg_demo_task_manager";
---CREATE DATABASE "pg_demo_task_manager";
+--DROP DATABASE IF EXISTS "demo_task_manager";
+--CREATE DATABASE "demo_task_manager";
 
 
 DROP TABLE IF EXISTS "user" CASCADE;
