@@ -13,9 +13,55 @@ const db = require('./models/index');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
 const HapiSwagger = require('hapi-swagger');
+// ref https://github.com/dwyl/hapi-auth-jwt2
+const JWT = require('hapi-auth-jwt2');
 const Pack = require('./package');
 const Joi = require('@hapi/joi');
 const taskController = require('./api/controller/taskController');
+const key = require('./config/envConfig')
+const createToken = require('./utils/createToken');
+const { user, session } = require('./models');
+
+const getUser = (user_id) => {
+    return user.findOne({
+        attributes: ['id', 'user_name', 'user_email'],
+        where: {
+            id: user_id.toString(),
+        },
+        raw: true,
+    });
+};
+
+const getSession = (user_id) => {
+    return session.findOne({
+        attributes: ['user_id', 'gauth_token'],
+        where: {
+            user_id: user_id.toString(),
+        },
+        raw: true,
+    });
+};
+
+
+// bring your own validation function
+const validate = async function (decoded, request, h) {
+    const { user_id, gauth_token, date, iat } = decoded;
+    console.log(user_id, gauth_token, date, iat);
+    //do your checks to see if the user is valid
+    var validUser = false;
+    await getSession(user_id).then((res) => {
+        if (res) {
+            console.log(res);
+            //time check here
+            validUser = true;
+        }
+    })
+    if (true === validUser){
+        return { isValid: true };
+    }else {
+        return { isValid: false };
+    }
+};
 
 const init = async () => {
 
@@ -32,6 +78,7 @@ const init = async () => {
     };
 
     await server.register([
+        JWT,
         Inert,
         Vision,
         {
@@ -40,9 +87,21 @@ const init = async () => {
         }
     ]);
 
+    server.auth.strategy('jwt', 'jwt',
+        {
+            key: key, // Never Share your secret key
+            validate: validate,  // validate function defined above
+            verifyOptions: {
+                //ignoreExpiration: true,    // do not reject expired tokens
+                algorithms: ['HS256']    // specify your secure algorithm
+            }
+        });
+    server.auth.default('jwt');
+
     server.route({
         method: 'GET',
         path: '/',
+        config: { auth: 'jwt' },
         handler: (request, h) => {
             return 'Hello World!';
         }
@@ -58,10 +117,10 @@ const init = async () => {
                 params: Joi.object({
                     id: Joi.number().required().description('Any Number'),
                 }),
-                }
-            },
-            handler: function (request, reply) {
-            return('Hello, you entered : ' + encodeURIComponent(request.params.id) + '!');
+            }
+        },
+        handler: function (request, reply) {
+            return ('Hello, you entered : ' + encodeURIComponent(request.params.id) + '!');
         },
     });
     server.route({
@@ -87,7 +146,7 @@ const init = async () => {
                 payload: Joi.object({
                     summary: Joi.string().required().description('Task Summary'),
                     description: Joi.string().required().description('Task Description'),
-                    created_by:Joi.number().required().description('Creator User ID')
+                    created_by: Joi.number().required().description('Creator User ID')
                 })
             }
         },
@@ -109,3 +168,5 @@ process.on('unhandledRejection', (err) => {
 });
 
 init();
+
+//console.log(createToken(0,'nasdlijadlkijasdoijasdoijasdoijasd'));
