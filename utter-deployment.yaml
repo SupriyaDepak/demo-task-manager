@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: utter-backend
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: utter-backend
+    spec:
+      containers:
+        - name: utter-backend
+          image: gcr.io/utter-review-poc/utter-backend:v1.0.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
