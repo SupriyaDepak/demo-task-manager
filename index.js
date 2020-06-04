@@ -46,21 +46,21 @@ const init = async () => {
         }
     ]);
 
-    server.auth.strategy('jwt', 'jwt',
-        {
-            key: key, // Never Share your secret key
-            validate: validate,  // validate function defined above
-            verifyOptions: {
-                //ignoreExpiration: true,    // do not reject expired tokens
-                algorithms: ['HS256']    // specify your secure algorithm
-            }
-        });
-    server.auth.default('jwt');
+    // server.auth.strategy('jwt', 'jwt',
+    //     {
+    //         key: key, // Never Share your secret key
+    //         validate: validate,  // validate function defined above
+    //         verifyOptions: {
+    //             //ignoreExpiration: true,    // do not reject expired tokens
+    //             algorithms: ['HS256']    // specify your secure algorithm
+    //         }
+    //     });
+    //server.auth.default('jwt');
 
     server.route({
         method: 'GET',
         path: '/',
-        config: { auth: 'jwt' },
+        //config: { auth: 'jwt' },
         handler: (request, h) => {
             return 'Hello World!';
         }
@@ -93,8 +93,8 @@ const init = async () => {
                 params: Joi.object({
                     status: Joi.string().required().description('List task accepts value as "open" or "closed"'),
                 }),
-                }
-            
+            }
+
         },
         handler: taskController.listTask
 
@@ -121,10 +121,10 @@ const init = async () => {
                 payload: Joi.object({
                     parent_task: Joi.number().description('parent task id'),
                     summary: Joi.string().required().description('Task Summary'),
-                   // priority: Joi.string().required().description('Task priority'),
+                    // priority: Joi.string().required().description('Task priority'),
                     // dueDate: Joi.date().timestamp('javascript').required().description('Task dueDate'),
                     description: Joi.string().required().description('Task Description'),
-                    created_by:Joi.number().required().description('Creator User ID')
+                    created_by: Joi.number().required().description('Creator User ID')
                 })
             }
         },
@@ -176,8 +176,8 @@ const init = async () => {
                 params: Joi.object({
                     task_id: Joi.number().required().description('task id'),
                 }),
-                }
-            
+            }
+
         },
         handler: taskController.listComment
 
