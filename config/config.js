@@ -7,16 +7,16 @@ const config = {
       dialect: 'postgres'
     },
     staging: {
-      database: 'demo_task_manager',
-      username: 'postgres',
-      password: 'root@123',
-      host: '10.220.48.3',
+      database: 'pg_demo_task_manager',
+      username: '',
+      password: '',
+      host: '35.238.115.191',
       dialect: 'postgres',
     },
   
   };
   
-  const environment = process.env.NODE_ENV || 'development';
+  const environment = process.env.NODE_ENV || 'staging';
   const dbConfig = config[environment];
   
   
