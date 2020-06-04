@@ -1,6 +1,6 @@
 FROM node:10
 RUN mkdir -p /app
-WORKDIR app
+WORKDIR /app
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
