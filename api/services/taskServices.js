@@ -70,7 +70,7 @@ const addComment = async function (task_id,user_id,content) {
     if ("" === recId){
         return(JSON.stringify({'status':'Failure'}));
     }else{
-        return(JSON.stringify({'task_id':recId}));
+        return(JSON.stringify({'comment_id':recId}));
     }
 }
 

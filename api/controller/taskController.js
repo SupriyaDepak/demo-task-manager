@@ -74,11 +74,11 @@ const addComment = async (req, res) => {
         await taskBusiness.addComment(task_id, user_id, comment).then(function (response) {
             recId = response
         })
-
+        comment_id = JSON.parse(recId).comment_id;
         if ("" === recId) {
             return (JSON.stringify({ 'status': 'Failure', statusCode: STATUS_CODE.FAILURE }));
         } else {
-            return (JSON.stringify({ 'status': 'Success', statusCode: STATUS_CODE.SUCCESS, 'task_id': recId }));
+            return (JSON.stringify({ 'status': 'Success', statusCode: STATUS_CODE.SUCCESS, 'comment_id': comment_id }));
         }
     } else {
         return (JSON.stringify({ 'status': 'Failure', statusCode: STATUS_CODE.API_DISABLED }));
