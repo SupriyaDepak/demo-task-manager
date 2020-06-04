@@ -30,14 +30,17 @@ const closeTask = async (req, res) => {
     if (FEATURE_CONFIG.TASK.CREATE) {
         let recId = "";
         const { task_id, type } = req.payload;
+        console.log(task_id);
         await taskBusiness.closeTask(task_id).then(function (response) {
             recId = response
         })
 
+        let deleted_task_id = 'Task-' + recId[0];
+
         if ("" === recId) {
             return (JSON.stringify({ 'status': 'Failure', statusCode: STATUS_CODE.FAILURE }));
         } else {
-            return (JSON.stringify({ 'status': 'Success', statusCode: STATUS_CODE.SUCCESS, 'task_id': recId }));
+            return (JSON.stringify({ 'status': 'Success', statusCode: STATUS_CODE.SUCCESS, 'task_id': deleted_task_id }));
         }
     } else {
         return (JSON.stringify({ 'status': 'Failure', statusCode: STATUS_CODE.API_DISABLED }));
