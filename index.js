@@ -101,6 +101,24 @@ const init = async () => {
     });
     server.route({
         method: "GET",
+        path: "/task/{parent_task}/listsubtask/{status}",
+        options: {
+            description: 'List the Subtasks',
+            notes: 'Returns a list of Subtasks',
+            tags: ['api'],
+            validate: {
+                params: Joi.object({
+                    parent_task: Joi.number().required().description('Parent Task id'),
+                    status: Joi.string().required().description('List task accepts value as "open" or "closed"'),
+                }),
+            }
+
+        },
+        handler: taskController.listSubTask
+
+    });
+    server.route({
+        method: "GET",
         path: "/task/taskcount",
         options: {
             description: 'List the Tasks',

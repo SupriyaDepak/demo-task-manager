@@ -35,12 +35,10 @@ const closeTask = async (req, res) => {
             recId = response
         })
 
-        let deleted_task_id = 'Task-' + recId[0];
-
         if ("" === recId) {
             return (JSON.stringify({ 'status': 'Failure', statusCode: STATUS_CODE.FAILURE }));
         } else {
-            return (JSON.stringify({ 'status': 'Success', statusCode: STATUS_CODE.SUCCESS, 'task_id': deleted_task_id }));
+            return (JSON.stringify({ 'status': 'Success', statusCode: STATUS_CODE.SUCCESS}));
         }
     } else {
         return (JSON.stringify({ 'status': 'Failure', statusCode: STATUS_CODE.API_DISABLED }));
@@ -60,6 +58,16 @@ const listTask = async (req, res) => {
     let resp;
     let { status } = req.params;
     await taskBusiness.listTask(status).then(function (response) {
+        resp = response
+    })
+    return ({ 'status': 'Success', data: resp });
+
+}
+
+const listSubTask = async (req, res) => {
+    let resp;
+    let { parent_task, status } = req.params;
+    await taskBusiness.listSubTask(parent_task, status).then(function (response) {
         resp = response
     })
     return ({ 'status': 'Success', data: resp });
@@ -101,5 +109,6 @@ module.exports = {
     closeTask,
     taskCount,
     addComment,
-    listComment
+    listComment,
+    listSubTask
 };

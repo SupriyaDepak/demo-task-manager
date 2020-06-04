@@ -5,6 +5,14 @@ const CONSTANTS = require('../../constants/constant');
 const { OPERTION_TYPE } = CONSTANTS
 
 
+const listSubTask = function (parent_task, status) {
+    return taskServices.listSubTask(parent_task, status).then((taskList) => {
+        return taskList;
+
+    })
+
+}
+
 const listTask = function (status) {
     return taskServices.listTask(status).then((taskList) => {
         return taskList;
@@ -22,7 +30,12 @@ const taskCount = function () {
 }
 
 const addTask = function (summary, description, created_by, parent_task) {
-    console.log(summary);
+    // IF not passed parent task, its a main task else subtask
+    if (!parent_task){
+        parent_task = 0;
+    } else {
+        console.log("Creating Subtask for Task :: ", parent_task);
+    }
     return taskServices.getLastTaskId().then((taskId) => {
         if (taskId && taskId.id) {
             console.log(taskId.id)
@@ -73,5 +86,6 @@ module.exports = {
     addTask,
     addComment,
     listComment,
-    closeTask
+    closeTask,
+    listSubTask
 };
