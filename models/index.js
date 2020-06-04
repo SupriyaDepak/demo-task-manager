@@ -37,7 +37,7 @@ sequelize
   });
 
 
-["task.js","user.js","session.js"]
+["task.js","user.js","session.js","comment.js"]
   .forEach((file) => {
     const model = sequelize.import(path.join(__dirname, file));
     db[model.name] = model;
@@ -48,7 +48,7 @@ Object.keys(db).forEach((modelName) => {
     db[modelName].associate(db);
   }
 });
-
+db.user.hasMany(db.comment,{as: 'Comment', foreignKey: 'user_id'})
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

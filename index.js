@@ -84,15 +84,31 @@ const init = async () => {
     });
     server.route({
         method: "GET",
-        path: "/task/list",
+        path: "/task/list/{status}",
+        options: {
+            description: 'List the Tasks',
+            notes: 'Returns a list of tasks',
+            tags: ['api'],
+            validate: {
+                params: Joi.object({
+                    status: Joi.string().required().description('List task accepts value as "open" or "closed"'),
+                }),
+                }
+            
+        },
+        handler: taskController.listTask
+
+    });
+    server.route({
+        method: "GET",
+        path: "/task/taskcount",
         options: {
             description: 'List the Tasks',
             notes: 'Returns a list of tasks',
             tags: ['api']
         },
-        handler: (request, response) => {
-            response(request.payload);
-        }
+        handler: taskController.taskCount
+
     });
     server.route({
         method: "POST",
@@ -103,14 +119,68 @@ const init = async () => {
             tags: ['api'],
             validate: {
                 payload: Joi.object({
+                    parent_task: Joi.number().description('parent task id'),
                     summary: Joi.string().required().description('Task Summary'),
+                   // priority: Joi.string().required().description('Task priority'),
+                    // dueDate: Joi.date().timestamp('javascript').required().description('Task dueDate'),
                     description: Joi.string().required().description('Task Description'),
-                    created_by: Joi.number().required().description('Creator User ID')
+                    created_by:Joi.number().required().description('Creator User ID')
                 })
             }
         },
         handler: taskController.addTask
         //(request, response) => {            response(request.payload);        }
+    });
+    server.route({
+        method: "POST",
+        path: "/comment/add",
+        options: {
+            description: 'Add a comment',
+            notes: 'Add a new comment',
+            tags: ['api'],
+            validate: {
+                payload: Joi.object({
+                    task_id: Joi.number().required().description('Task id'),
+                    user_id: Joi.number().required().description('user id'),
+                    comment: Joi.string().required().description('comment'),
+                })
+            }
+        },
+        handler: taskController.addComment
+        //(request, response) => {            response(request.payload);        }
+    });
+    server.route({
+        method: "POST",
+        path: "/task/close",
+        options: {
+            description: 'close task and sub-task',
+            notes: 'close task and sub-task',
+            tags: ['api'],
+            validate: {
+                payload: Joi.object({
+                    task_id: Joi.number().required().description('Task id')
+                })
+            }
+        },
+        handler: taskController.closeTask
+        //(request, response) => {            response(request.payload);        }
+    });
+    server.route({
+        method: "GET",
+        path: "/comment/list/{task_id}",
+        options: {
+            description: 'List the comments for particular task',
+            notes: 'Returns a list of comments',
+            tags: ['api'],
+            validate: {
+                params: Joi.object({
+                    task_id: Joi.number().required().description('task id'),
+                }),
+                }
+            
+        },
+        handler: taskController.listComment
+
     });
     try {
         await server.start();
