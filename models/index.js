@@ -48,9 +48,9 @@ Object.keys(db).forEach((modelName) => {
     db[modelName].associate(db);
   }
 });
-db.user.hasMany(db.comment,{as: 'Comment', foreignKey: 'user_id'})
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 module.exports = db;
+module.exports.db = db;

@@ -101,7 +101,7 @@ const init = async () => {
     });
     server.route({
         method: "GET",
-        path: "/task/{parent_task}/listsubtask/{status}",
+        path: "/task/listsubtask/{parent_task}/{status}",
         options: {
             description: 'List the Subtasks',
             notes: 'Returns a list of Subtasks',
@@ -148,6 +148,22 @@ const init = async () => {
         },
         handler: taskController.addTask
         //(request, response) => {            response(request.payload);        }
+    });
+    server.route({
+        method: "GET",
+        path: "/task/subtaskcount/{task_id}",
+        options: {
+            description: 'List the Tasks',
+            notes: 'Returns a list of tasks',
+            tags: ['api'],
+            validate: {
+                params: Joi.object({
+                    task_id: Joi.number().required().description('parent task id'),
+                }),
+                }
+        },
+        handler: taskController.subTaskCount
+
     });
     server.route({
         method: "POST",

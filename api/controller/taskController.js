@@ -103,6 +103,16 @@ const listComment = async (req, res) => {
     return ({ 'status': 'Success', data: resp });
 
 }
+const subTaskCount = async (req, res) => {
+    let resp;
+    let {task_id} = req.params;
+   await taskBusiness.subTaskCount(task_id).then(function(response) {
+       resp = response
+   })
+   return({'status':'Success',data:resp});
+   
+   }
+
 module.exports = {
     listTask,
     addTask,
@@ -110,5 +120,6 @@ module.exports = {
     taskCount,
     addComment,
     listComment,
-    listSubTask
+    listSubTask,
+    subTaskCount
 };

@@ -4,20 +4,67 @@ const { task, comment, user } = require('../../models');
 var sequelize = require('sequelize');
 const CONSTANTS = require('../../constants/constant');
 const { OPERTION_TYPE } = CONSTANTS
+var db  = require('../../models/index').db;
 
-const listTask = function (status) {
-    return task.findAll({ where: { status: status } }, { raw: true })
+const listTask = async function (status) {
+    try{
+    let result = '';
+    query = `select t.id,task_id,t.summary,t.description,u.user_name as created_by,u2.user_name as assignee from task t left outer join users u on t.assignee = u.id left outer join users u2 on t.created_by = u2.id where t.status ='${status}' and parent_id=0`
+   await db.sequelize.query(query).spread((results, metadata) => {
+        // Results will be an empty array and metadata will contain the number of affected rows.
+        result =results;
+    });
+    return result;
+}catch(e){
+    console.log(e);
+    return '';
+}
 }
 
-const listSubTask = function (parent_task, status) {
-    return task.findAll({ where: { parent_id:parent_task, status: status } }, { raw: true })
+const listSubTask = async function (parent_task, status) {
+    try{
+    query = `select t.id,task_id,t.summary,t.description,u.user_name as created_by,u2.user_name as assignee from task t left outer join users u on t.assignee = u.id left outer join users u2 on t.created_by = u2.id where t.status ='${status}' and parent_id=${parent_task}`
+    await db.sequelize.query(query).spread((results, metadata) => {
+        // Results will be an empty array and metadata will contain the number of affected rows.
+        result =results;
+    });
+    return result;   
+}catch(e){
+        console.log(e);
+        return '';
+
+
+    }
 }
 
 const taskCount = function () {
+    try{
     return task.findAll({
-        attributes: ['status', [sequelize.fn('COUNT', sequelize.col('id')), 'taskCount']],
+        where: {
+            parent_id: {
+              [Op.or]: [0,null]
+            }
+          },
+        attributes: ['status', [sequelize.fn('COUNT', sequelize.col('id')), 'taskCount']], 
         group: ["status"]
-    }, { raw: true })
+      },{ raw: true }).catch((error) => error);
+    }catch(e){
+        console.log(e)
+    }
+}
+
+const subTaskCount = function (task_id) {
+    try{
+    return task.findAll({
+        where: {
+            parent_id: task_id
+          },
+        attributes: ['status', [sequelize.fn('COUNT', sequelize.col('id')), 'taskCount']], 
+        group: ["status"]
+      },{ raw: true }).catch((error) => error);
+    }catch(e){
+        console.log(e)
+    }
 }
 
 const addTask = async function (summary, description, created_by, taskId, parent_task) {
@@ -110,5 +157,6 @@ module.exports = {
     addComment,
     listComment,
     closeTask,
-    listSubTask
+    listSubTask,
+    subTaskCount
 };

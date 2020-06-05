@@ -50,3 +50,6 @@ CREATE TABLE "session" (
 	"updatedAt" TIMESTAMP NOT NULL,
 	CONSTRAINT "FK__session_user" FOREIGN KEY ("user_id") REFERENCES "user" ("id")
 );
+
+ALTER TABLE "user"
+RENAME TO "users";

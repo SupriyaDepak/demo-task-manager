@@ -29,6 +29,14 @@ const taskCount = function () {
 
 }
 
+const subTaskCount = function(task_id) {
+    return taskServices.subTaskCount(task_id).then((taskCounts)=>{
+        return taskCounts;
+        
+   })
+
+}
+
 const addTask = function (summary, description, created_by, parent_task) {
     // IF not passed parent task, its a main task else subtask
     if (!parent_task){
@@ -87,5 +95,6 @@ module.exports = {
     addComment,
     listComment,
     closeTask,
-    listSubTask
+    listSubTask,
+    subTaskCount
 };
